@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Student  Information </title>
+   
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="LOGIN FORM.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="center">
+          <h1>Register</h1>
+          <form method="POST" action="loginform.php" >
+              <div class="txt_field">
+                  <input type="text" name="name" id="name" required>
+                  
+                  <label>Name</label>
+              </div>
+              <div class="txt_field">
+                  <input type="email" name="email" id="email" required>
+                  <span></span>
+                  <label>Email</label>
+              </div>
+              <div class="txt_field">
+                  <input type="password" name="password" id="password" required>
+                  <span></span>
+                  <label>Password</label>
+              </div>
+              <div class="txt_field">
+                  <input type="password" name="cpassword" id="cpassword" required>
+                  <span></span>
+                  <label>Confirm Password</label>
+              </div>
+              <input name="submit" type="Submit" value="Sign Up">
+              <div class="signup_link">
+                  Have an Account ? <a href="loginForm.php">Login Here</a>
+              </div>
+          </form>
+      </div>
+  </div>
+
+
+  <script>
+    $(document).ready(function() {
+    $('#butsave').on('click', function() {
+    $("#butsave").attr("disabled", "disabled");
+    var name = $('#name').val();
+    var email = $('#email').val();
+    var phone = $('#password').val();
+    var city = $('#cpassword').val();
+    if(name!="" && email!="" && password!="" && cpassword!=""){
+        $.ajax({
+            url: "loginform.php",
+            type: "POST",
+            data: {
+                name: name,
+                email: email,
+                phone: phone,
+                city: city				
+            },
+            cache: false,
+            success: function(dataResult){
+                var dataResult = JSON.parse(dataResult);
+                if(dataResult.statusCode==200){
+                    $("#butsave").removeAttr("disabled");
+                    $('#fupForm').find('input:text').val('');
+                    $("#success").show();
+                    $('#success').html('Data added successfully !'); 						
+                }
+                else if(dataResult.statusCode==201){
+                    alert("Error occured !");
+                }
+                
+            }
+        });
+        }
+        else{
+            alert('Please fill all the field !');
+        }
+    });
+    });
+  </script>
+  </body>
+</html>
